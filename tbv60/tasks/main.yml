@@ -1,0 +1,29 @@
+---
+
+- name: thunderbird | Create thunderbird tmp Directory
+  file: state=directory path=/tmp/thunderbird/
+  become: yes
+
+- name: thunderbird | Check if thunderbird Archive is already downloaded
+  local_action: stat path=/tmp/thunderbird/thunderbird-60.0.tar.bz2
+  register: thunderbird_archive_exists
+
+- name: thunderbird | Download thunderbird Source
+  get_url:
+    url: https://download.mozilla.org/?product=thunderbird-60.0-SSL&os=linux64&lang=de
+    dest: /tmp/thunderbird
+  when: not thunderbird_archive_exists.stat.exists
+  become: yes
+
+- name: thunderbird | Unzip thunderbird Install
+  unarchive:
+    copy: no
+    src: /tmp/thunderbird/thunderbird-60.0.tar.bz2
+    dest: /opt
+    creates: /opt/thunderbird
+  become: yes
+
+- name: thunderbird | cp Gnome App definition
+  copy:
+    src: files/thunderbird60.desktop
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/thunderbird60.desktop"

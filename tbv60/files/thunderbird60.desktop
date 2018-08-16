@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Thunderbird
+GenericName=Thunderbird
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=False
+Exec=/opt/thunderbird/thunderbird %u
+Icon=/opt/thunderbird/chrome/icons/default/default128.png
+Comment=Benutzerdefinition für Thunderbird
